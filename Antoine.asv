@@ -1,0 +1,41 @@
+%%
+%% Antonie equation: boiling point of water
+%%
+%%
+%% Jose Albornoz
+%% Fujitsu Laboratories of Europe
+%% August 2011
+%%
+clear all 
+close all
+
+A = 8.07131;
+B = 1730.63;
+C = 233.426;
+
+T = 0:0.5:120;
+
+P = 10.^(A - B./(C + T));    % pressure in mmHg
+
+P = P*0.001315789473684 ;        % pressure in atm
+
+figure(1)
+plot(T,P)
+grid
+xlabel('Boiling point (C)')
+ylabel('Pressure (atm)')
+
+
+P = 10:0.5:110;
+
+T = B./(A - log10(P)) - C;
+
+figure(2)
+plot(P,T)
+grid
+xlabel('Pressure (mmHg)')
+ylabel('Boiling point (C)')
+
+T = 20
+
+P = 10.^(A - B./(C + T));    % pressure in mmHg

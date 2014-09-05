@@ -1,0 +1,70 @@
+%%
+%%
+%%
+%%
+clear all
+close all
+
+% table of enthalpies
+% rows: temperatures from 20 to 100 Celsius, specified in 10 degree intervals
+% columns: concentrations from 0 to 60% in 10% intervals
+enth_raw = zeros(7,7)
+enth_raw(1,:) = [84.0 67.4 52.6 40.4 33.5 38.9 78.0];
+enth_raw(2,:) = [125.8 103.3 84.0 68.6 58.3 60.5 96.8];
+enth_raw(3,:) = [167.6 139.5 115.8 96.0 82.5 82.2 115.4];
+enth_raw(4,:) = [209.3 175.2 147.0 123.4 106.7 103.8 134.5];
+enth_raw(5,:) = [251.1 211.7 179.1 151.4 131.7 125.8 153.7];
+enth_raw(6,:) = [293.0 247.7 210.5 178.8 155.7 148.0 173.2];
+enth_raw(7,:) = [334.9 297.8 234.6 207.3 181.0 170 192.6];
+Tr = [20 30 40 60 
+
+% test concentration and temperatures
+%X = 0.5;
+%T = 0:10:120;
+
+X = 0:0.05:0.6;
+T = 80;
+ 
+%h1 = zeros(1,length(T));
+%h2 = zeros(1,length(T));
+
+h1 = zeros(1,length(X));
+h2 = zeros(1,length(X));
+
+%for i = 1:length(T)
+%    h1(i) = enthalpies(X,T(i));
+%    h2(i) = (42.81 - 425.92*X + 404.67*X^2 + (1.01 - 1.23*X + 0.48*X^2)*T(i))*4.184;
+%end
+
+for i = 1:length(X)
+    h1(i) = enthalpies(X(i),T);
+    h2(i) = (42.81 - 425.92*X(i) + 404.67*X(i)^2 + (1.01 - 1.23*X(i) + 0.48*X(i)^2)*T)*4.184;
+end
+
+figure(1)
+plot(X,h1,X,h2)
+grid
+legend('h1','h2')
+
+T = 60;
+X = 0.6;
+
+h = (42.81 - 425.92*X + 404.67*X^2 + (1.01 - 1.23*X + 0.48*X^2)*T)*4.184 + 266.7436
+
+%figure(2)
+%plot(T,(h2 - 321.5199)/4.184)
+%grid
+
+
+% entalphy at 25 Celsius (kJoule/kg)
+%h_25 = (68.06 - 456.67*Xt + 416.67*Xt^2)*4.184 + 321.5199
+
+% enthalpy at t Celsius (kJoule/kg)
+%h_Tt = (42.81 - 425.92*Xt + 404.67*Xt^2 + (1.01 - 1.23*Xt + 0.48*Xt^2)*Tt)*4.184 + 321.5199
+
+%delta_h = h_Tt - h_25
+
+%h_25 = enthalpies(Xt,25 + 273)
+%h_Tt = enthalpies(Xt,Tt + 273)
+%delta_h = h_Tt - h_25
+

@@ -1,0 +1,83 @@
+%% chiller_3.m
+%%
+%% Analysis of a LiBr chiller around an operating point
+%%
+%%
+%% Jose Albornoz
+%% Fujitsu Laboratories of Europe
+%% August 2011
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  UNITS
+%%  1 ton = 3516.86 W
+%%
+%%
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear all
+close all
+
+% input parameters
+
+% tg > tc >= ta > te
+tg = 60;     % generator temperature, celsius
+tc = 32;     % condenser temperature, celsius
+ta = 32;     % absorber temperature, celsius
+te = 10;     % evaporator temperature, celsius
+
+EL = 0.7;      % liquid-liquid heat exchanger efficiency
+QE = 60:120;    % cooling load, watts
+
+% fills vectors with chiller data
+QG = [];
+QC = [];
+QA = [];
+COP = [];
+RPR = [];
+mR = [];
+mS = [];
+mW = [];
+Pe = [];
+Pc = [];
+X1 = [];
+X4 = [];
+for i = 1:length(QE)
+    Chiller(i) = LiBr_2(tg,tc,ta,te,EL,QE(i));
+    QG = [QG Chiller(i).QG];
+    QC = [QC Chiller(i).QC];
+    QA = [QA Chiller(i).QA];
+    COP = [COP Chiller(i).COP];
+    RPR = [RPR Chiller(i).RPR];
+    mR = [mR Chiller(i).mR];
+    mS = [mS Chiller(i).mS];
+    mW = [mW Chiller(i).mW];
+    Pe = [Pe Chiller(i).Pe];
+    Pc = [Pc Chiller(i).Pc];
+    X1 = [X1 Chiller(i).X1];
+    X4 = [X4 Chiller(i).X4];    
+end
+
+figure(1)
+plot(QE,QG,QE,QC)
+grid
+legend('QE','QC')
+xlabel('QE (W)')
+
+figure(2)
+plot(QE,COP,QE,RPR)
+grid
+legend('COP','RPR')
+xlabel('QE (W)')
+
+figure(3)
+plot(QE,mR,QE,mS,QE,mW)
+grid
+legend('mR','mS','mW')
+xlabel('QE (W)')
+
+figure(4)
+plot(QE,Pe,QE,Pc)
+grid
+legend('Pe','Pc')
+xlabel('QE (W)')

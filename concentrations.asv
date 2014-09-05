@@ -1,0 +1,96 @@
+%%
+%% Allowable temperature values for a LiBr chiller
+%%
+%% Jose Albornoz
+%% Fujitsu Laboratories of Europe
+%% August 2011
+%%
+clear all
+close all
+
+tg = 0:1:80;     % generator temperature, celsius
+tc = 0:1:80;     % condenser temperature, celsius
+ta = 0:1:80;     % absorber temperature, celsius
+te = 0:1:80;     % evaporator temperature, celsius
+
+% we need tg > tc > ta > te and X4 > X1
+
+L = length(tg);
+
+% weak solution
+X4 = zeros(L);
+for i = 1:L
+    for j = 1:L
+        X4(i,j) = (49.04 + 1.125*tg(i) - tc(j))/(134.65 + 0.47*tg(i)); 
+    end
+end
+
+%figure(1)
+%surf(tg,tc,X4)
+%xlabel('Tg')
+%ylabel('Tc')
+%zlabel('X4')
+
+% strong solution
+X1 = zeros(L);
+for i = 1:L
+    for j = 1:L
+        X1(i,j) = (49.04 + 1.125*ta(i) - te(j))/(134.65 + 0.47*ta(i)); 
+    end
+end
+
+%figure(2)
+%surf(ta,te,X1)
+%xlabel('Ta')
+%ylabel('Te')
+%zlabel('X1')
+
+% weak solution, with restrictions
+X4 = zeros(L);
+for i = 1:L
+    for j = 1:L
+        temp = (49.04 + 1.125*tg(i) - tc(j))/(134.65 + 0.47*tg(i)); 
+        if temp > 0.5 && temp < 0.65 && tg(i) > tc(j)
+            X4(i,j) = 1;
+        end
+    end
+end
+
+figure(1)
+surf(tg,tc,X4)
+xlabel('Tg')
+ylabel('Tc')
+zlabel('X4')
+
+% strong solution, with restrictions
+X1 = zeros(L);
+for i = 1:L
+    for j = 1:L
+        temp = (49.04 + 1.125*ta(i) - te(j))/(134.65 + 0.47*ta(i));  
+        if temp > 0.5 && temp < 0.65 && ta(i) > te(j)
+            X1(i,j) = 1;
+        end
+    end
+end
+
+figure(2)
+surf(ta,te,X1)
+xlabel('Ta')
+ylabel('Te')
+zlabel('X1')
+
+for i = 1:L
+    for j = 1:L
+        for k = 1:L
+            for l = 1:L
+                tempX4 = 49.04 + 1.125*tg(i) - tc(j))/(134.65 + 0.47*tg(i)); 
+                tempX1 = (49.04 + 1.125*ta(k) - te(l))/(134.65 + 0.47*ta(k));
+                if tempX4 > tempX1 && tempX4 > 0.5 && tempX1 < 0.65 && 
+                end
+                
+            end
+        end
+    end
+end
+
+
